@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import * as playersService from '../services/players';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import bigGameImage from '../assets/Big-Game.webp';
-import bossFightImage from '../assets/Boss-Fight.webp';
-import bountyImage from '../assets/Bounty.webp';
-import brawlBallImage from '../assets/Brawl-Ball.webp';
-import duoShowdownImage from '../assets/Duo-Showdown.webp';
-import gemGrabImage from '../assets/Gem-Grab.webp';
-import heistImage from '../assets/Heist.webp';
-import hotZoneImage from '../assets/Hot-Zone.webp';
-import roboRumbleImage from '../assets/Robo-Rumble.webp';
-import showdownImage from '../assets/Showdown.webp';
-import siegeImage from '../assets/Siege.webp';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import * as playersService from '../services/players'
+import { makeStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import bigGameImage from '../assets/Big-Game.webp'
+import bossFightImage from '../assets/Boss-Fight.webp'
+import bountyImage from '../assets/Bounty.webp'
+import brawlBallImage from '../assets/Brawl-Ball.webp'
+import duoShowdownImage from '../assets/Duo-Showdown.webp'
+import gemGrabImage from '../assets/Gem-Grab.webp'
+import heistImage from '../assets/Heist.webp'
+import hotZoneImage from '../assets/Hot-Zone.webp'
+import roboRumbleImage from '../assets/Robo-Rumble.webp'
+import showdownImage from '../assets/Showdown.webp'
+import siegeImage from '../assets/Siege.webp'
 
 const useStyles = makeStyles({
   root: {
@@ -28,13 +28,13 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12
   }
-});
+})
 
 const BattleLog = ({ playerTag }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(undefined);
-  const [battleLog, setBattleLog] = useState([]);
-  const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(undefined)
+  const [battleLog, setBattleLog] = useState([])
+  const classes = useStyles()
   const gameMode = {
     soloShowdown: {
       title: 'SOLO SHOWDOWN',
@@ -80,38 +80,38 @@ const BattleLog = ({ playerTag }) => {
       title: 'ROBO RUMBLE',
       image: roboRumbleImage
     }
-  };
+  }
 
   useEffect(() => {
     async function fetchData() {
       if (playerTag) {
-        setIsLoading(true);
-        setError(undefined);
+        setIsLoading(true)
+        setError(undefined)
 
         const battleLogResponse = await playersService
           .getBattleLog(playerTag)
           .catch(error => {
-            const errorMessage = error?.response?.data?.reason;
-            setError(errorMessage);
-            setIsLoading(false);
-          });
+            const errorMessage = error?.response?.data?.reason
+            setError(errorMessage)
+            setIsLoading(false)
+          })
 
-        if (battleLogResponse) setBattleLog(battleLogResponse.data);
-        setIsLoading(false);
+        if (battleLogResponse) setBattleLog(battleLogResponse.data)
+        setIsLoading(false)
       }
     }
-    fetchData();
-  }, [playerTag]);
+    fetchData()
+  }, [playerTag])
 
   const getReadableTime = totalSeconds => {
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = (totalSeconds % 3600) % 60;
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = (totalSeconds % 3600) % 60
 
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(
       2,
       '0'
-    )} minutes`;
-  };
+    )} minutes`
+  }
 
   return (
     <>
@@ -125,7 +125,11 @@ const BattleLog = ({ playerTag }) => {
         battleLog.items &&
         battleLog.items.length > 0 &&
         battleLog.items.map(item => (
-          <Card className={classes.root} variant='outlined'>
+          <Card
+            className={classes.root}
+            key={item.battleTime}
+            variant='outlined'
+          >
             <CardContent
               style={{
                 backgroundImage: `url(${gameMode[item.battle.mode].image})`
@@ -153,11 +157,11 @@ const BattleLog = ({ playerTag }) => {
           </Card>
         ))}
     </>
-  );
-};
+  )
+}
 
 BattleLog.propTypes = {
   playerTag: PropTypes.string.isRequired
-};
+}
 
-export default BattleLog;
+export default BattleLog

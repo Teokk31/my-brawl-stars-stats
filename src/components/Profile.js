@@ -147,7 +147,7 @@ const Profile = ({ playerTag }) => {
                   </TableRow>
                   <TableRow>
                     <TableCell>
-                      Best Time {profile.bestTimeAsBigBrawler}Big Brawler
+                      Best Time As Big Brawler
                     </TableCell>
                     <TableCell>{profile.bestTimeAsBigBrawler}</TableCell>
                   </TableRow>
